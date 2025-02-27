@@ -39,11 +39,13 @@ func main() {
 // -------- CRUD Operations ------------------
 
 // Get all tasks
+// curl http://localhost:8080/tasks
 func getTasks(c *gin.Context) {
 	c.JSON(http.StatusOK, tasks)
 }
 
 // Get a single task by ID
+// curl http://localhost:8080/tasks/1
 func getTaskByID(c *gin.Context) {
 	id := c.Param("id")
 	for _, task := range tasks {
@@ -56,6 +58,9 @@ func getTaskByID(c *gin.Context) {
 }
 
 // Create a new task
+//curl -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -d '{"id": "3", "title": "Learn cURL", "status": "pending"}'
+// -H: This tells the server that the request body contains JSON data.
+// -d: This sends a JSON object containing task details in the request body.
 func createTask(c *gin.Context) {
 	var newTask Task
 	if err := c.ShouldBindJSON(&newTask); err != nil {
@@ -67,6 +72,7 @@ func createTask(c *gin.Context) {
 }
 
 // Update a task
+// curl -X PUT http://localhost:8080/tasks/1 -H "Content-Type: application/json" -d '{"id": "1", "title": "Master Go", "status": "completed"}'
 func updateTask(c *gin.Context) {
 	id := c.Param("id")
 	var updatedTask Task
@@ -87,6 +93,7 @@ func updateTask(c *gin.Context) {
 }
 
 // Delete a task
+// curl -X DELETE http://localhost:8080/tasks/2
 func deleteTask(c *gin.Context) {
 	id := c.Param("id")
 	for i, task := range tasks {
